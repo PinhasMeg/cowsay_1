@@ -8,7 +8,13 @@ WORKDIR /cowsay/src
 
 RUN npm install
 
-ENTRYPOINT npm start
+#in order to enter in entrypoint.sh we need to go to the directory before src 
+#WORKDIR /cowsay
+
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "8080" ]
 
 
 #handle port exposing
