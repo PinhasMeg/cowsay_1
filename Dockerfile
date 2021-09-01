@@ -1,4 +1,4 @@
-FROM node:16.8
+FROM node:16-alpine3.11
 #WORKDIR /cowsay
 
 #copy source files from host to WORKDIR, if there is not WRKDIR we write COPY . /cowsay
