@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  web:
+      image: 'gitlab/gitlab-ee:latest'
+      restart: always
+      # hostname: 'gitlab.example.com'
+      # environment:
+      #   GITLAB_OMNIBUS_CONFIG: |
+      #     external_url 'https://gitlab.example.com'
+          # Add any other gitlab.rb configuration here, each on its own line
+      ports:
+        - '81:80'
+        - '443:443'
+        - '22:22'
+      volumes:
+        - '$GITLAB_HOME/config:/etc/gitlab'
+        - '$GITLAB_HOME/logs:/var/log/gitlab'
+        - '$GITLAB_HOME/data:/var/opt/gitlab'
+      networks:
+       - cowsay_network
+  
+  
+  jenkins:
+    image: 'my_jenkins'
+    build: 
+      context: .
+      args:
+        HOST_UID: ${HOST_UID}
+        HOST_GID: ${HOST_GID}
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      #- /usr/bin/docker:/usr/bin/docker
+
+    networks:
+      - cowsay_network
+
+volumes:
+  jenkins_home:
+
+networks:
+  cowsay_network:
+
